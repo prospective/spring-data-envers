@@ -15,14 +15,13 @@
  */
 package org.springframework.data.envers.sample;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.history.RevisionRepository;
+import org.springframework.data.envers.repository.support.EnversRevisionRepository;
 
 /**
  * Repository for {@link Country} objects.
  * 
  * @author Oliver Gierke
  */
-public interface CountryRepository extends RevisionRepository<Country, Long, Integer>, JpaRepository<Country, Long> {
+public interface CountryRepository extends EnversRevisionRepository<Country, Long, Integer> {
 
 }
