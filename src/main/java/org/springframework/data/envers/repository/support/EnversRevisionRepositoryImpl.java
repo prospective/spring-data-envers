@@ -133,15 +133,16 @@ public class EnversRevisionRepositoryImpl<T, ID extends Serializable, N extends 
 
 
     @Override
-    public Revision<N, T> findByRevision(ID id, N revision) {
+    public Revision<N, T> findEntitiesAtRevision(ID id, N revision) {
         Class<T> type = entityInformation.getJavaType();
-        AuditReader reader = AuditReaderFactory.get(entityManager);
 
         Class<?> revisionEntityClass = revisionEntityInformation.getRevisionEntityClass();
+        AuditReader reader = AuditReaderFactory.get(entityManager);
+        T result = (T) reader.createQuery().forEntitiesAtRevision(type, revision).getSingleResult();
 
         Object revisionEntity = reader.findRevision(revisionEntityClass, revision);
         RevisionMetadata<N> metadata = (RevisionMetadata<N>) getRevisionMetadata(revisionEntity);
-        return new Revision<N, T>(metadata, reader.find(type, id, revision));
+        return new Revision<N, T>(metadata, result);
     }
 
     @SuppressWarnings("unchecked")

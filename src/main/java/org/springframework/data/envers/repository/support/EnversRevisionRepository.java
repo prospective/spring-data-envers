@@ -33,7 +33,7 @@ import java.util.Date;
 public interface EnversRevisionRepository<T, ID extends Serializable, N extends Number & Comparable<N>> extends
 		RevisionRepository<T, ID, N>, JpaRepository<T, ID> {
 
-    public Revision<N, T> findByRevision(ID id, N revision);
+    public Revision<N, T> findEntitiesAtRevision(ID id, N revision);
 
     public N getRevisionNumberForDate(Date date);
 
