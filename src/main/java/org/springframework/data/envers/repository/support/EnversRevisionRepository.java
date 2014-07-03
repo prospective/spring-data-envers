@@ -16,6 +16,7 @@
 package org.springframework.data.envers.repository.support;
 
 import org.springframework.data.history.Revision;
+import org.springframework.data.history.RevisionMetadata;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.history.RevisionRepository;
@@ -32,6 +33,8 @@ import java.util.Date;
 @NoRepositoryBean
 public interface EnversRevisionRepository<T, ID extends Serializable, N extends Number & Comparable<N>> extends
 		RevisionRepository<T, ID, N>, JpaRepository<T, ID> {
+
+    RevisionMetadata<N> findLastChangeRevisionMetadata(ID id);
 
     public Revision<N, T> findEntitiesAtRevision(ID id, N revision);
 

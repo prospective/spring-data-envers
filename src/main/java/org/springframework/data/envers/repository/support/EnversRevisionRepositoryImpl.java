@@ -92,7 +92,29 @@ public class EnversRevisionRepositoryImpl<T, ID extends Serializable, N extends 
 		return new Revision<N, T>(metadata, reader.find(type, id, latestRevision));
 	}
 
-	/*
+
+    @Override
+    public RevisionMetadata<N> findLastChangeRevisionMetadata(ID id) {
+
+        Class<T> type = entityInformation.getJavaType();
+        AuditReader reader = AuditReaderFactory.get(entityManager);
+
+        List<Number> revisions = reader.getRevisions(type, id);
+
+        if (revisions.isEmpty()) {
+            return null;
+        }
+
+        N latestRevision = (N) revisions.get(revisions.size() - 1);
+
+        Class<?> revisionEntityClass = revisionEntityInformation.getRevisionEntityClass();
+
+        Object revisionEntity = reader.findRevision(revisionEntityClass, latestRevision);
+        return (RevisionMetadata<N>) getRevisionMetadata(revisionEntity);
+    }
+
+
+    /*
 	 * (non-Javadoc)
 	 * @see org.springframework.data.repository.history.RevisionRepository#findRevisions(java.io.Serializable)
 	 */
